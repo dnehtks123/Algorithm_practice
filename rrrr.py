@@ -47,3 +47,28 @@ for i in plans:
             ny = y + dy[i]
 
 if nx > n or ny > n or nx < 1 or ny < 1 
+
+
+
+
+
+
+
+
+
+
+# 1. 00 ~ 59 까지 횟수 세기 K
+# 2. 초 : K * 60 번  + K + 0~N시에 있으면 + 1 ?
+
+# 그냥 문자열로 바꿔서 푸네... 시계를 문자열로..ㅇㅎ
+
+
+# 완전탐색
+h = int(input())
+count = 0
+
+for i in range(h+1):
+    for j in range(60):
+        for k in range(60):
+            if '3' in str(i) + str(j) + str(k):
+                count+=1
