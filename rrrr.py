@@ -49,6 +49,9 @@ for i in plans:
 if nx > n or ny > n or nx < 1 or ny < 1 
 
 
+# ==================================================================================================================
+# ==================================================================================================================
+# ==================================================================================================================
 
 # 1. 00 ~ 59 까지 횟수 세기 K
 # 2. 초 : K * 60 번  + K + 0~N시에 있으면 + 1 ?
@@ -84,6 +87,10 @@ for step in steps:
         count += 1  
 
 print(count)
+
+# ==================================================================================================================
+# ==================================================================================================================
+# ==================================================================================================================
 
 
 # 삼성전자 알고리즘 테스트 문제. 
@@ -192,3 +199,107 @@ while True:
             break
         turn_time=0
 print(count)
+
+# ==================================================================================================================
+# ==================================================================================================================
+# ==================================================================================================================
+
+
+# DFS, BFS 알고리즘 재귀함수로 구현
+
+# 1. DFS   ----> 스택 동작원리, 구현 법 재귀함수
+def dfs(graph, v, visited):
+    # 현재 노드를 방문처리 후 print로 확인
+    visited[v] =True
+        print(v, end=' ')
+        
+    for i in graph[v]:
+        if not visited[i]:
+            dfs(graph, i, visited)
+     
+# 2. BFS  ========> 큐 동작원리
+def bfs(graph, start, visited):
+    # 큐 구현을 위해 deque 라이브러리 사용
+    queue = deque([start])
+    visited[start] = True
+    
+    while queue:
+        v = queue.popleft()
+        for i in graph[v]:
+            if not visited[i]:
+                queue.append(i)
+                visited[i] = True
+                
+# 1. 음료수 얼려먹기
+n, m = map(int, input().split())
+
+def dfs(x, y):
+    if x <= -1 or x >=n or y<= -1 or y>=m:
+        return False
+    if graph[x][y] == 0:
+        graph[x][y] = 1
+        # 상, 하, 좌, 우의 위치도 모두 재귀적으로 호출
+        dfs(x - 1, y)
+        dfs(x, y - 1)
+        dfs(x + 1, y)
+        dfs(x, y+1)
+        return True
+    return False
+
+# 모든 노드에 대해서 음료수 채우기
+result = 0
+for i in range(n):
+    fot j in range(m):
+        if dfs(i,j) == True:
+            result+=1
+            
+print(result)
+        
+            
+visited = ['False'] * n
+
+# 얼음 틀 전달받기 dfs?, bfs? 구현?
+
+graph = []
+for _ in range(n):
+    graph.append(list(map(int, input())))
+
+dfs(x-1, y) # 좌
+dfs(x+1, y) # 우
+dfs(x, y-1) # 상
+dfs(x, y+1) # 하
+
+
+
+
+# 2. 미로탈출
+
+n, m = map(int, input().split())
+
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input())))
+    
+dx = [-1, 1, 0, 0] 
+dy = [0, 0,-1, 1]
+
+def bfs(x, y):
+    queue=deque()    
+    queue.append((x,y))
+    
+    while queue: # 큐가 빌때까지 반복
+        x, y = queue.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            
+            if nx <0 or ny <0 or nx >n or ny >m:
+                continue
+            if graph[nx][ny] == 0:
+                continue
+            # 해당 노드를 처음 방문하면 기록
+            if graph[nx][ny] == 1:
+                graph[nx][ny] = graph[x][y] +1
+                queue.append((nx,ny))
+    
+    
