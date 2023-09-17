@@ -50,13 +50,6 @@ if nx > n or ny > n or nx < 1 or ny < 1
 
 
 
-
-
-
-
-
-
-
 # 1. 00 ~ 59 까지 횟수 세기 K
 # 2. 초 : K * 60 번  + K + 0~N시에 있으면 + 1 ?
 
@@ -72,3 +65,130 @@ for i in range(h+1):
         for k in range(60):
             if '3' in str(i) + str(j) + str(k):
                 count+=1
+                
+# 왕실의 나이트
+start = input()
+x = int(start[1])
+y_list = ["a", "b", "c", "d", "e", "f", "g", "h"]
+y = y_list.index(start[0])+1
+
+# 상좌(-2, -1), 상우(-2, 1), 우상(2, -1), 우하(2, 1), 좌상(-2, -1), 좌하(-2, 1), 하좌(2, -1), 하우(2, 1)
+steps = [(-2, -1), (-2, 1), (2, -1), (2, 1), (-2, -1), (-2, 1), (2, -1), (2, 1)]
+
+count = 0
+
+for step in steps:
+    nx = x + step[0]
+    ny = y + step[1]
+    if (nx >= 1 and nx <= 8 and ny >= 1 and ny <= 8):
+        count += 1  
+
+print(count)
+
+
+# 삼성전자 알고리즘 테스트 문제. 
+
+# n,m을 공백으로 구분하여 입력받기
+N, M = map(int, input().split())
+
+# 방문한 위치를 저장하기 위한 맵 생성해서 0으로 초기화
+d = [[0]*M for _ in range(N)]
+
+# 현재 캐릭터의 x, y 좌표 받기
+a, b, direction = map(int, input().split())
+d[x][y] = 1 # 자기 자리 1처리
+
+# 전체 맵 정보를 입력받기
+array=[]
+for i in range(n):
+    array.append(list(map(int, input().split())))
+
+# 북동남서 방향 정의
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0 ,-1]
+# 왼쪽으로 회전
+def turn_left():
+    global_direction 
+    direction -=1
+    if direction == -1 :
+        direction = 3
+
+# 시뮬레이션 시작
+count = 1
+turn_time =  0
+while True:
+    # 왼쪽으로 회전
+    turn_left()
+    nx = x + dx[direction]
+    ny = y + dy[direction]
+    # 회전한 이후 가보지 않은 칸이 존재하는 경우 이동
+    if d[nx][ny] == 0 and array[nx][ny] == 0:
+        d[nx][ny] = 1
+        x = nx
+        y = ny
+        count+=1
+        turn_time = 0
+        continue
+    #  회전한 이후 갈 곳이 없다면 회전만 하기
+    else:
+        turn_time+=1
+    # 네 방향 모두 갈 수 없는 경우
+    if turn_time ==4:
+        nx = x + dx[direction]    
+        ny = y + dy[direction] 
+        #뒤가 바다로 막혀있는경우
+        if array[nx][ny] == 0:
+            x = nx
+            y = ny
+        else:
+            break
+        turn_time=0
+        
+# 정답 출력
+print(count)
+
+# 다시한번 복습
+# N, M 을 공백으로 구분하여 입력받기
+n, m = map(int, input().split())
+
+a, b, direction = map(int, input().split())
+
+array=[]
+for _ in range(n):
+    array.append(list(map(int, input().split())))
+
+# 리스트 컴프리헨션으로 모두 0으로 처리
+d = [[0] * m for _ in range(n)]
+# 1. 왼쪽 방향 부터 갈 곳을 정한다
+def turn_left:
+    global direction
+    direction -=1
+    if direction==-1:
+        direction=3
+        
+# 2. 가보지 않은 칸 0이 있다면 전진
+while True:
+    turn_left()
+    nx = x + dx[direction]
+    ny = y + dx[direction]
+    if d[nx][ny] == 0 and array[nx][ny] == 0:
+        x = nx
+        y = ny
+        turn_time = 0
+        count+=1
+        continue
+# 3. 가봤던 칸 else 이라면 회전만 하기
+    else:        
+        turn_time+=1
+# 4. 네 방향 모두 가본 칸 turn_time == 4
+    if turn_time == 4:
+        # 뒤로갈수있음이동
+        nx = x - dx[direction]
+        ny = y - dx[direction]
+        if array[nx][ny] == 0:
+            x = nx
+            y = ny
+        else:
+            break
+        turn_time=0
+print(count)
